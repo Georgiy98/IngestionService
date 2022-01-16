@@ -3,6 +3,7 @@
     "the_same_error_all_time": "WARNING:root:ZeroDivisionError()\nWARNING:root:ZeroDivisionError()\nWARNING:root:ZeroDivisionError()\n",
     "one_time_failed_then_success": "WARNING:root:ZeroDivisionError()\n",
     "two_different_fails_then_success": "WARNING:root:ZeroDivisionError()\nWARNING:root:ValueError()\n",
-    "without_errors": ""
+    "without_errors": "",
+    "do_not_retry_if_division_by_zero_error": ""
   }
 }

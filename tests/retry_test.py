@@ -3,7 +3,8 @@ import logging
 import os
 import functools
 import json
-from utils.retry import retry, RetryException
+from utils.retry import retry
+from exceptions import RetryException
 
 
 def raise_error_all_time():
@@ -87,3 +88,33 @@ class RetryTest(unittest.TestCase):
     def testFuncWithArgs(self):
         """without_errors"""
         self.assertEqual(200, retry(3)(lambda a, b: 200)(1, 2))
+
+    @check_expectations
+    def testWithExclude(self):
+        """do_not_retry_if_division_by_zero_error"""
+        self.assertRaises(RetryException, retry(
+            3, exclude=ZeroDivisionError)(raise_error_all_time))
+
+    @check_expectations
+    def testWithExcludeTuple(self):
+        """do_not_retry_if_division_by_zero_error"""
+        self.assertRaises(RetryException, retry(
+            3, exclude=(ZeroDivisionError, ValueError))(raise_error_all_time))
+
+    @check_expectations
+    def testWithInclude(self):
+        """the_same_error_all_time"""
+        self.assertRaises(RetryException, retry(
+            3, include=ZeroDivisionError)(raise_error_all_time))
+
+    @check_expectations
+    def testWithIncludeAndExclude(self):
+        """the_same_error_all_time"""
+        self.assertRaises(RetryException, retry(
+            3, include=ZeroDivisionError, exclude=FileExistsError)(raise_error_all_time))
+
+    @check_expectations
+    def testWithIncludeAndExclude(self):
+        """do_not_retry_if_division_by_zero_error"""
+        self.assertRaises(RetryException, retry(
+            3, include=FileExistsError, exclude=ZeroDivisionError)(raise_error_all_time))
