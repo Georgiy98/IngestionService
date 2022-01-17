@@ -22,7 +22,7 @@ if __name__ == '__main__':
             exit(2)
         else:
             show_help_command()
-            quit(2)
+            exit(2)
     host, port, db, user, pwd, table, inc_key, inc_value = sys.argv[1:]
     try:
         port = int(port)
