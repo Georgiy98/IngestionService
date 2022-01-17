@@ -1,9 +1,10 @@
 from DbManager import DbManager
 import sys
+import logging
 
 
 def show_help_info():
-    print(
+    logging.info(
         '''Program takes next arguments:
 host, port, name of database, username, password, name of table, name of incremental column, minimum value
 As an example:
@@ -12,10 +13,11 @@ As an example:
 
 
 def show_help_command():
-    print('Use command python3 main.py --help to get more info')
+    logging.info('Use command python3 main.py --help to get more info')
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(message)s')
     if len(sys.argv) != 9:
         if len(sys.argv) == 2 and sys.argv[1] == '--help':
             show_help_info()
@@ -28,10 +30,11 @@ if __name__ == '__main__':
         port = int(port)
         inc_value = float(inc_value)
     except ValueError:
-        print('Port must be an integer and minimum value must be float!')
+        logging.error('Port must be an integer and minimum value must be float!')
         show_help_command()
-    print('Connecting to db..')
+        exit(2)
+    logging.info('Connecting to db..')
     manager = DbManager(host, port, db, user, pwd)
-    print('Connection established. Gathering data..')
+    logging.info('Connection established. Gathering data..')
     manager.collect(table, inc_key, inc_value)
-    print('Operation has finished successful! You can see result in "result.json" file')
+    logging.info('Operation has finished successful! You can see result in "result.json" file')
