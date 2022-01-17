@@ -1,8 +1,8 @@
 FROM python
 WORKDIR /home
-COPY bin ./bin
 COPY utils ./utils
 COPY requirements.txt .
+COPY DbManager.py .
 COPY main.py .
 RUN pip install -r requirements.txt
 VOLUME data

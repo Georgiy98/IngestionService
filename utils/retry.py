@@ -1,3 +1,4 @@
+import functools
 import logging
 import traceback
 from exceptions import RetryException
@@ -18,12 +19,14 @@ def retry(amount: int, include=(BaseException,), exclude=(BaseException,)):
         exclude = (exclude,)
 
     def repeater(func):
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             error_set = set()
             for _ in range(amount):
                 try:
                     return func(*args, **kwargs)
                 except include as e:
+                    # Flake9 says "F821 undefined name 'e'"
                     error_set.add(_get_error_msg(e))
                     if exclude != (BaseException,) and any(map(lambda error: isinstance(e, error), exclude)):
                         raise RetryException('\n'.join(error_set))

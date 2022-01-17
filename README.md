@@ -14,5 +14,7 @@ Be sure, you have docker/docker-compose on your computer Then, if you would like
 commands:
 
 ```buildoutcfg
-docker build
+docker build --tag ingestion_service .
 ```
+
+To be continued..

@@ -114,7 +114,7 @@ class RetryTest(unittest.TestCase):
             3, include=ZeroDivisionError, exclude=FileExistsError)(raise_error_all_time))
 
     @check_expectations
-    def testWithIncludeAndExclude(self):
+    def testWithExcludeAndInclude(self):
         """do_not_retry_if_division_by_zero_error"""
         self.assertRaises(RetryException, retry(
             3, include=FileExistsError, exclude=ZeroDivisionError)(raise_error_all_time))

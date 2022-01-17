@@ -44,10 +44,10 @@ class DbManager:
     def _get_all_columns(self, table_name: str) -> typing.Tuple[str]:
         """It gets all column names from table"""
         self.cursor.execute(f'''
-        SELECT column_name 
-        FROM INFORMATION_SCHEMA.COLUMNS 
+        SELECT column_name
+        FROM INFORMATION_SCHEMA.COLUMNS
         WHERE table_name = '{table_name}';
-        ''')
+''')
         res = self.cursor.fetchall()
         return tuple(item[0] for item in res)
 
@@ -76,7 +76,7 @@ class DbManager:
 
         def check():
             if type(incremental_value) not in (int, float):
-                raise ValueError(f'incremental_value must be instance of int/float')
+                raise ValueError('incremental_value must be instance of int/float')
             if table_name not in self._get_all_tables_names():
                 raise FatalDatabaseException(f'No table named "{table_name}" in database')
             if incremental_key not in self._get_all_columns(table_name):
